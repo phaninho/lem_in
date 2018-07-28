@@ -7,7 +7,7 @@ typedef struct      s_room
 {
     int             room_num;
     int             tube;
-    struct t_room   *next;
+    struct s_room   *next;
 }                   t_room;
 
 typedef struct      s_env
