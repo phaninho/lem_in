@@ -105,6 +105,7 @@ void	init_env(t_env *e)
         e->line = NULL;
         e->r->room_num = -1;
         e->r->tube = -1;
+        e->r->free = 0;
         e->r->next = NULL;
 }
 
@@ -114,6 +115,9 @@ int main()
 
     init_env(&e);
     read_file(&e);
+
+
+// --> debug
     ft_putstr("\n\nrecap\n");
     t_room *begin;
     begin = e.r;
@@ -122,5 +126,6 @@ int main()
         printf("r_n: %d, tube: %d \n", begin->room_num, begin->tube);
         begin = begin->next;
     }
+// <--
     return (0);
 }
