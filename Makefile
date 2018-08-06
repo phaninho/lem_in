@@ -6,7 +6,8 @@ OBJ_PATH = ./obj/
 INC_PATH = ./include/ ./libft/
 LIB_PATH = ./libft/
 
-SRC_NAME = file_reader.c
+SRC_NAME = file_reader.c error_handler.c data_loader.c node_handler.c \
+			init.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = -lft
 DEP = ./include/lem_in.h
