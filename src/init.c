@@ -7,7 +7,7 @@ void	init_env(t_env *e)
         e->count_line = 0;
         e->start = -1;
         e->end = -1;
-        e->max = 0;
+        e->max_room = 0;
         e->short_way = NULL;
         e->line = NULL;
         e->r->room_num = -1;

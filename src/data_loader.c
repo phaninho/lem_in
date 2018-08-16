@@ -45,5 +45,5 @@ void	room_recorder(t_env *e)
         new = new_node(split);
         last->next = new;
     }
-    e->max++;
+    e->max_room++;
 }

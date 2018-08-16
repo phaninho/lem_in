@@ -27,12 +27,38 @@ void	parsing_checker(t_env *e)
 
 void	path_loader(t_env *e, t_room *begin, int i)
 {
-    while (begin)
+    while (e->short_way[i] != e->end)
     {
-        e->short_way[i] = begin->tube;
-        begin = begin->next;
-        i++;
+        if (e->short_way[i - 1] == begin->room_num)
+        {
+            printf("entre dans room %d link to %d\n", begin->room_num, begin->tube );
+            e->short_way[i] = begin->tube;
+            begin = e->r;
+            i++;
+        }
+        else if (begin->next)
+            begin = begin->next;
+        else
+            break;
     }
+}
+
+void	send_fourmiz(t_env *e)
+{
+    (void)e;
+    // int     fourmiz_counter;
+    // t_room  begin;
+    //
+    // fourmiz_counter = 1;
+    // while (e->fourmiz >= fourmiz_counter)
+    // {
+    //     begin = e->r;
+    //     while (begin)
+    //     {
+    //         // quelques choses
+    //     }
+    //     fourmiz_counter++;
+    // }
 }
 
 bool    path_finder(t_env *e)
@@ -41,16 +67,19 @@ bool    path_finder(t_env *e)
     int i;
 
     i = 0;
-    e->short_way = ft_memalloc(e->max);
-    e->short_way[e->max + 1] = -1;
+    e->short_way = ft_memalloc(e->max_room);
+    e->short_way[e->max_room + 1] = -1;
     begin = e->r;
     e->short_way[i] = e->start;
     path_loader(e, begin, 1);
+    // Debug
     while (e->short_way[i] != -1)
     {
         printf("in %d room n = %d\n",i,  e->short_way[i]);
         i++;
     }
+    send_fourmiz(e);
+    //
     return (0);
 }
 

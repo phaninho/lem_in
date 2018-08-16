@@ -19,20 +19,19 @@ typedef struct      s_env
     int             count_line;
     int             start;
     int             end;
-    int             max;
+    int             max_room;
     int             *short_way;
     char            *line;
     t_room          *r;
 }                   t_env;
 
-int check_error(t_env *e);
-void	init_env(t_env *e);
+int         check_error(t_env *e);
+void	    init_env(t_env *e);
 t_room      *new_node(char **split);
-int      find_start(char * coord, t_env *e);
-int      find_end(char * coord, t_env *e);
-void	 room_recorder(t_env *e);
-// int	      read_file(t_env *e);
-void	 parsing_checker(t_env *e);
+int         find_start(char * coord, t_env *e);
+int         find_end(char * coord, t_env *e);
+void	    room_recorder(t_env *e);
+void	    parsing_checker(t_env *e);
 
 
 #endif
