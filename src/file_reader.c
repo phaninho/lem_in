@@ -25,13 +25,13 @@ void	parsing_checker(t_env *e)
         room_recorder(e);
 }
 
-void	path_loader(int *way, t_room *begin, int i)
+void	path_loader(t_env *e, t_room *begin, int i)
 {
     while (begin)
     {
-        way[i] = begin->tube;
-        printf("in room n %d\n", way[i]);
+        e->short_way[i] = begin->tube;
         begin = begin->next;
+        i++;
     }
 }
 
@@ -40,20 +40,17 @@ bool    path_finder(t_env *e)
     t_room  *begin;
     int i;
 
-    i = -1;
+    i = 0;
     e->short_way = ft_memalloc(e->max);
-    e->short_way[e->max] = -1;
+    e->short_way[e->max + 1] = -1;
     begin = e->r;
-    e->short_way[++i] = e->start;
-    path_loader(e->short_way, begin, i);
-
-    printf("in room n %d\n", e->short_way[i]);
-    // while (begin)
-    // {
-    //     e->short_way[++i] = begin->tube;
-    //     printf("in room n %d\n", e->short_way[i]);
-    //     begin = begin->next;
-    // }
+    e->short_way[i] = e->start;
+    path_loader(e, begin, 1);
+    while (e->short_way[i] != -1)
+    {
+        printf("in %d room n = %d\n",i,  e->short_way[i]);
+        i++;
+    }
     return (0);
 }
 
