@@ -1,3 +1,4 @@
 obj/
 tests/
 lem-in
+*.o

@@ -1,6 +1,5 @@
 #include "lem_in.h"
 
-
 int      find_start(char * coord, t_env *e)
 {
     char *c;
@@ -46,4 +45,5 @@ void	room_recorder(t_env *e)
         new = new_node(split);
         last->next = new;
     }
+    e->max++;
 }
