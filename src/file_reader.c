@@ -25,65 +25,6 @@ void	parsing_checker(t_env *e)
         room_recorder(e);
 }
 
-void	path_loader(t_env *e, t_room *begin, int i)
-{
-    while (e->short_way[i] != e->end)
-    {
-        if (e->short_way[i - 1] == begin->room_num)
-        {
-            printf("entre dans room %d link to %d\n", begin->room_num, begin->tube );
-            e->short_way[i] = begin->tube;
-            begin = e->r;
-            i++;
-        }
-        else if (begin->next)
-            begin = begin->next;
-        else
-            break;
-    }
-}
-
-void	send_fourmiz(t_env *e)
-{
-    (void)e;
-    // int     fourmiz_counter;
-    // t_room  begin;
-    //
-    // fourmiz_counter = 1;
-    // while (e->fourmiz >= fourmiz_counter)
-    // {
-    //     begin = e->r;
-    //     while (begin)
-    //     {
-    //         // quelques choses
-    //     }
-    //     fourmiz_counter++;
-    // }
-}
-
-bool    path_finder(t_env *e)
-{
-    t_room  *begin;
-    int i;
-
-    i = 0;
-    e->short_way = ft_memalloc(e->max_room);
-    e->short_way[e->max_room + 1] = -1;
-    begin = e->r;
-    e->short_way[i] = e->start;
-    path_loader(e, begin, 1);
-    // Debug
-    while (e->short_way[i] != -1)
-    {
-        printf("in %d room n = %d\n",i,  e->short_way[i]);
-        i++;
-    }
-    send_fourmiz(e);
-    //
-    return (0);
-}
-
-
 int	read_file(t_env *e)
 {
 
@@ -109,12 +50,12 @@ int main()
     t_room *begin;
     begin = e.r;
     printf("fourmiz number %d\n", e.fourmiz);
-    printf("start = %d --- end = %d\n", e.start, e.end);
-    while (begin)
-    {
-        printf("r_n: %d, tube: %d \n", begin->room_num, begin->tube);
-        begin = begin->next;
-    }
+    printf("\nstart = %d --- end = %d\n\n", e.start, e.end);
+    // while (begin)
+    // {
+    //     printf("r_n: %d, tube: %d \n", begin->room_num, begin->tube);
+    //     begin = begin->next;
+    // }
 // <--
 
     if (path_finder(&e))
