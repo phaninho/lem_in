@@ -1,50 +1,92 @@
 #include "lem_in.h"
 
-void	make_fourmiz_advance(t_env *e, int fourmiz_counter, int i)
+void	make_fourmiz_advance(t_env *e, int i)
+{
+    t_room      *begin;
+
+    while (i >= 0)
+    {
+        begin = e->r;
+        while (begin->room_num != e->short_way[i])
+            begin = begin->next;
+        if (!begin->free)
+        {
+            begin->free = 1;
+            begin->fourmiz_nb = 1;
+        }
+        else if (begin->fourmiz_nb < e->fourmiz)
+            begin->fourmiz_nb++;
+        else
+        {
+            begin->fourmiz_nb = 0;
+            begin->free = 0;
+        }
+        if (begin->fourmiz_nb)
+            display(begin);
+        i--;
+    }
+    ft_putchar('\n');
+}
+
+int     fourmiz_on_field(t_env *e)
 {
     t_room      *begin;
 
     begin = e->r;
-    while (begin->room_num != e->short_way[i])
+    while (begin)
+    {
+        if (begin->free)
+            return (1);
         begin = begin->next;
-    printf("dans M A F %d pour %d max %d\n", begin->room_num, e->short_way[i], e->max_room);
-    if (fourmiz_counter == e->fourmiz)
-        printf("dans M A F %d pour %d max %d\n", e->end, e->short_way[i], e->max_room);
+    }
+    return (0);
+}
+
+void	advance_last_fourmiz(t_env *e, int i)
+{
+    t_room      *begin;
+
+    while (i >= 0)
+    {
+        begin = e->r;
+        while (begin->room_num != e->short_way[i])
+            begin = begin->next;
+        if (begin->fourmiz_nb < e->fourmiz && begin->fourmiz_nb)
+            begin->fourmiz_nb++;
+        else
+        {
+            begin->fourmiz_nb = 0;
+            begin->free = 0;
+        }
+        if (begin->fourmiz_nb)
+            display(begin);
+        else
+            break;
+        i--;
+    }
+    if (begin->fourmiz_nb != e->fourmiz && begin->room_num != e->end)
+        ft_putchar('\n');
 }
 
 void	send_fourmiz(t_env *e)
 {
     int         fourmiz_counter;
     int         i;
-    // int     next_room_avaible;
-    // t_room  *begin;
 
     i = 0;
     fourmiz_counter = 1;
-    // next_room_avaible = 0;
-    while (fourmiz_counter <= e->fourmiz)
+    while (fourmiz_counter <= e->fourmiz || e->short_way[i] != -1)
     {
         //------------> TODO <--------------
-        make_fourmiz_advance(e, fourmiz_counter, i);
-        // begin = e->r;
-        // while (begin)
-        // {
-        // //     if (begin->room_num == e->short_way[i] && !begin->free)
-        // //     {
-        // //         begin->fourmiz_nb = fourmiz_counter;
-        // //         begin->free = 1;
-        // //         break;
-        // //     }
-            // begin = begin->next;
-        // }
-        // printf("fourmiz_counter => %d\n", fourmiz_counter);
-        // if (begin->room_num == e->start && !begin->free)
+        make_fourmiz_advance(e, i);
+        if (fourmiz_counter <= e->fourmiz)
             fourmiz_counter++;
+        if (e->short_way[i] != -1)
             i++;
-        // begin = begin->next;
-
         // ------------> TODO <-------------
     }
+    while (fourmiz_on_field(e))
+        advance_last_fourmiz(e, i - 1);
 }
 
 void	path_loader(t_env *e, t_room *begin, int i)
@@ -67,16 +109,22 @@ void	path_loader(t_env *e, t_room *begin, int i)
 
 bool    path_finder(t_env *e)
 {
-    t_room  *begin;
     int i;
 
     i = 0;
     e->short_way = ft_memalloc(e->max_room);
     e->short_way[e->max_room + 1] = -1;
-    begin = e->r;
     e->short_way[i] = e->start;
-    path_loader(e, begin, 1);
+    path_loader(e, e->r, 1);
     // Debug
+    // t_room  *begin;
+    // begin = e->r;
+    //
+    // while (begin)
+    // {
+    //     printf("room %d\n", begin->room_num);
+    //     begin = begin->next;
+    // }
     // while (e->short_way[i] != -1)
     // {
     //     printf("in %d room n = %d\n",i,  e->short_way[i]);

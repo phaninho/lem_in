@@ -32,6 +32,7 @@ int	read_file(t_env *e)
 
     while ((ret = get_next_line(0, &(e->line))) > 0)
         parsing_checker(e);
+    add_last_node(e);
     if (check_error(e))
         return (-1);
     return(ret);
