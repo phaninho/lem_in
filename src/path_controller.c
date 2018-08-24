@@ -77,34 +77,37 @@ void	send_fourmiz(t_env *e)
     fourmiz_counter = 1;
     while (fourmiz_counter <= e->fourmiz || e->short_way[i] != -1)
     {
-        //------------> TODO <--------------
         make_fourmiz_advance(e, i);
         if (fourmiz_counter <= e->fourmiz)
             fourmiz_counter++;
         if (e->short_way[i] != -1)
             i++;
-        // ------------> TODO <-------------
     }
     while (fourmiz_on_field(e))
         advance_last_fourmiz(e, i - 1);
 }
 
-void	path_loader(t_env *e, t_room *begin, int i)
+int     path_loader(t_env *e, t_room *begin, int i)
 {
     while (e->short_way[i] != e->end)
     {
         if (e->short_way[i - 1] == begin->room_num)
         {
-            printf("entre dans room %d link to %d\n", begin->room_num, begin->tube);
             e->short_way[i] = begin->tube;
+            if (begin->room_num != e->end)
+                i++;
+            else
+                break;
             begin = e->r;
-            i++;
         }
         else if (begin->next)
             begin = begin->next;
         else
             break;
     }
+    if (e->short_way[i - 1] != e->end && !begin->next)
+        return (1);
+    return (0);
 }
 
 bool    path_finder(t_env *e)
@@ -115,22 +118,8 @@ bool    path_finder(t_env *e)
     e->short_way = ft_memalloc(e->max_room);
     e->short_way[e->max_room + 1] = -1;
     e->short_way[i] = e->start;
-    path_loader(e, e->r, 1);
-    // Debug
-    // t_room  *begin;
-    // begin = e->r;
-    //
-    // while (begin)
-    // {
-    //     printf("room %d\n", begin->room_num);
-    //     begin = begin->next;
-    // }
-    // while (e->short_way[i] != -1)
-    // {
-    //     printf("in %d room n = %d\n",i,  e->short_way[i]);
-    //     i++;
-    // }
+    if (path_loader(e, e->r, 1))
+        return (1);
     send_fourmiz(e);
-    //
     return (0);
 }
