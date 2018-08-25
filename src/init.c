@@ -4,7 +4,7 @@
 void	init_env(t_env *e)
 {
         e->fourmiz = 0;
-        e->reach_end = 0;
+        e->short_lenght = 0;
         e->count_line = 0;
         e->start = -1;
         e->end = -1;

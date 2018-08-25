@@ -4,6 +4,7 @@ int      find_start(char * coord, t_env *e)
 {
     char *c;
 
+    ft_putendl(e->line);
     if (!(c = (char *)malloc(sizeof(char) * (coord - e->line + 1))))
         return (0);
     ft_strncpy(c, coord - 1, coord - e->line);
@@ -15,6 +16,7 @@ int      find_end(char * coord, t_env *e)
 {
     char *c;
 
+    ft_putendl(e->line);
     if (!(c = (char *)malloc(sizeof(char) * (coord - e->line + 1))))
         return (0);
     ft_strncpy(c, coord - 1, coord - e->line);

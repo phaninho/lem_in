@@ -17,7 +17,7 @@ typedef struct      s_env
 {
     char            *line;
     int             fourmiz;
-    int             reach_end;
+    int             short_lenght;
     int             count_line;
     int             start;
     int             end;
@@ -27,6 +27,8 @@ typedef struct      s_env
 }                   t_env;
 
 int                 check_error(t_env *e);
+int                 way_error(void);
+int                 check_loop(int *way, int value, int limit);
 void	            init_env(t_env *e);
 t_room              *new_node(char **split);
 void	            add_last_node(t_env *e);
@@ -36,6 +38,7 @@ void	            room_recorder(t_env *e);
 void	            parsing_checker(t_env *e);
 bool                path_finder(t_env *e);
 void	           	display(t_room *begin);
+int                 jump_line(t_room *begin, t_env *e);
 
 #endif
 

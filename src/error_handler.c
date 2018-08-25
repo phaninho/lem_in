@@ -24,3 +24,26 @@ int check_error(t_env *e)
     }
     return (0);
 }
+
+int way_error(void)
+{
+    ft_putendl("Error, way can't be found");
+    return (1);
+}
+
+int check_loop(int *way, int value, int limit)
+{
+    int     i;
+
+    i = 0;
+    while (i < limit)
+    {
+        if (way[i] == value)
+        {
+            ft_putendl("Error, infinite loop");
+            return (1);
+        }
+        i++;
+    }
+    return (0);
+}

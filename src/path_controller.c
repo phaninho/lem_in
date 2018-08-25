@@ -42,7 +42,7 @@ int     fourmiz_on_field(t_env *e)
     return (0);
 }
 
-void	advance_last_fourmiz(t_env *e, int i)
+int 	advance_last_fourmiz(t_env *e, int i)
 {
     t_room      *begin;
 
@@ -64,8 +64,11 @@ void	advance_last_fourmiz(t_env *e, int i)
             break;
         i--;
     }
-    if (begin->fourmiz_nb != e->fourmiz && begin->room_num != e->end)
-        ft_putchar('\n');
+    // if (begin->fourmiz_nb == 0 && begin->tube == e->end)
+    //    return (1);
+    // else if (begin->fourmiz_nb != e->fourmiz || begin->room_num != e->end)
+    //     ft_putchar('\n');
+    return (jump_line(begin, e));
 }
 
 void	send_fourmiz(t_env *e)
@@ -75,16 +78,21 @@ void	send_fourmiz(t_env *e)
 
     i = 0;
     fourmiz_counter = 1;
-    while (fourmiz_counter <= e->fourmiz || e->short_way[i] != -1)
+    while (fourmiz_counter <= e->fourmiz || i < e->short_lenght)
     {
+        if (i == e->short_lenght)
+            break;
         make_fourmiz_advance(e, i);
         if (fourmiz_counter <= e->fourmiz)
             fourmiz_counter++;
-        if (e->short_way[i] != -1)
+        if (i < e->short_lenght)
             i++;
     }
     while (fourmiz_on_field(e))
-        advance_last_fourmiz(e, i - 1);
+    {
+        if (advance_last_fourmiz(e, i - 1))
+            break;
+    }
 }
 
 int     path_loader(t_env *e, t_room *begin, int i)
@@ -93,7 +101,10 @@ int     path_loader(t_env *e, t_room *begin, int i)
     {
         if (e->short_way[i - 1] == begin->room_num)
         {
+            if (check_loop(e->short_way, begin->tube, i))
+                return (1);
             e->short_way[i] = begin->tube;
+            e->short_lenght++;
             if (begin->room_num != e->end)
                 i++;
             else
@@ -106,7 +117,7 @@ int     path_loader(t_env *e, t_room *begin, int i)
             break;
     }
     if (e->short_way[i - 1] != e->end && !begin->next)
-        return (1);
+        return (way_error());
     return (0);
 }
 

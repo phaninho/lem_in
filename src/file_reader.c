@@ -31,7 +31,11 @@ int	read_file(t_env *e)
     int ret;
 
     while ((ret = get_next_line(0, &(e->line))) > 0)
+    {
+        ft_putendl(e->line);
         parsing_checker(e);
+    }
+    ft_putchar('\n');
     add_last_node(e);
     if (check_error(e))
         return (-1);
@@ -47,11 +51,11 @@ int main()
         return (1);
 
 // --> debug
-    ft_putstr("\nrecap\n");
-    t_room *begin;
-    begin = e.r;
-    printf("fourmiz number %d\n", e.fourmiz);
-    printf("\nstart = %d --- end = %d\n\n", e.start, e.end);
+    // ft_putstr("\nrecap\n");
+    // t_room *begin;
+    // begin = e.r;
+    // printf("fourmiz number %d\n", e.fourmiz);
+    // printf("\nstart = %d --- end = %d\n\n", e.start, e.end);
     // while (begin)
     // {
     //     printf("r_n: %d, tube: %d \n", begin->room_num, begin->tube);
